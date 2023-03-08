@@ -17,12 +17,12 @@ pipeline {
         }
         stage('Build Docker Image') {
             steps {
-                sh 'docker build -t my-docker-image .'
+                sh 'docker build -t my-app .'
             }
         }
         stage('Run Unit Tests') {
             steps {
-                sh 'docker run my-docker-image npm test'
+                sh 'docker run my-app npm test'
             }
         }
         stage('Save Test Results') {
@@ -30,7 +30,7 @@ pipeline {
                 script {
                     def userName = env.USER
                     def currentDate = new Date().format("yyyy-MM-dd")
-                    def testStatus = sh(returnStatus: true, script: 'docker run my-docker-image npm test')
+                    def testStatus = sh(returnStatus: true, script: 'docker run my-app npm test')
                     def csvContent = "${userName},${currentDate},${testStatus}"
                     writeFile file: 'test_results.csv', text: csvContent, encoding: 'UTF-8'
                 }
