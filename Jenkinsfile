@@ -13,6 +13,14 @@ pipeline {
                 ])
             }
         }
+        stage('S3download') {
+            steps{
+                sh 'rm -rf *'
+                withAWS(credentials:'DanielDevops', region:'eu-central-1'){
+                    s3Download(file: '3kyx3yqbo4ycdgxi5jc3n5pomy.json.gz', bucket:'danielproject',path: "AWSDynamoDB/01677951784753-854cdf64/data/3kyx3yqbo4ycdgxi5jc3n5pomy.json.gz")
+                }
+            }
+        }
         stage('Build Docker Image') {
             steps {
                 sh 'docker build -t my-app:1.0.0 .'
@@ -26,6 +34,18 @@ pipeline {
                 always {
                     junit 'test-results.xml'
                 }
+            }
+        }
+        stage('PreUploadToGit') {
+            steps {
+                sh 'gzip -d 3kyx3yqbo4ycdgxi5jc3n5pomy.json.gz' 
+                sh 'git add .'
+                sh 'git commit -m "some commit message"'
+            }
+        }
+        stage('GitPush') {
+            steps {
+                sh 'git push origin HEAD'
             }
         }
         stage('Upload CSV to S3') {
