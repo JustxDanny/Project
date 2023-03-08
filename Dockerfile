@@ -14,6 +14,8 @@ RUN pip install flask
 # Expose port 80 for Flask app
 EXPOSE 80
 
+# Set the user to jenkins
+USER jenkins
+
 # Start the Flask app with prompt for name input
 CMD ["sh", "-c", "echo 'Enter your name: ' && read name && export NAME=$name && python app.py"]
-
