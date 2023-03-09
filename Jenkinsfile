@@ -8,9 +8,9 @@ pipeline {
                     branches: [[name: 'main']],
                     userRemoteConfigs: [[
                         url: 'https://github.com/JustxDanny/Project.git',
-                        credentialsId: 'credentials-ssh-id
-                      ]],
-                       extensions: [[$class: 'CloneOption', depth: 1]]
+                        credentialsId: 'credentials-ssh-id'
+                    ]],
+                    extensions: [[$class: 'CloneOption', depth: 1]]
                 ])
             }
         }
