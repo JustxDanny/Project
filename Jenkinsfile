@@ -1,7 +1,6 @@
 pipeline {
-    agent {
-        agent any
-        disableConcurrentBuild()
+    agent any
+    disableConcurrentBuild()
     }
     stages {
         stage('Create Folder') {
