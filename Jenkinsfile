@@ -15,21 +15,13 @@ pipeline {
         stage('Checkout SCM') {
             steps {
                 sh 'echo "CheckoutSCM"'
-                checkout([
-                    $class: 'GitSCM',
-                    branches: [
-                        [name: 'main']
-                    ],
-                    userRemoteConfigs: [
-                        [
-                            url: 'git@github.com:JustxDanny/Project.git',
-                            credentialsId: 'master-node'
-                        ]
-                    ],
-                    extensions: [
-                        [$class: 'CloneOption', depth: 1]
-                    ]
-                ])
+                checkout([$class: 'GitSCM',
+                branches: [[name: '*/master']],
+                doGenerateSubmoduleConfigurations: false,
+                extensions: [[$class: 'SubmoduleOption', disableSubmodules: false, parentCredentials: true, recursiveSubmodules: true, reference: '', trackingSubmodules: false]],
+                submoduleCfg: [],
+                userRemoteConfigs: [[credentialsId: 'master-ubuntu', url: 'git@github.com:JustxDanny/Project.git']]
+                         ])
             }
         }
     }
