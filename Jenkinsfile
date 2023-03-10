@@ -4,6 +4,7 @@ pipeline {
     stages {
         stage('Create Folder') {
             steps {
+                sh 'sudo rm -rf /project'
                 sh 'sudo mkdir /project'
                 sh 'sudo chown $USER:$USER /project'
                 sh 'sudo chmod -R a+rw /project'
