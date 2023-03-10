@@ -19,7 +19,7 @@ pipeline {
                 doGenerateSubmoduleConfigurations: false,
                 extensions: [[$class: 'SubmoduleOption', disableSubmodules: false, parentCredentials: true, recursiveSubmodules: true, reference: '', trackingSubmodules: false]],
                 submoduleCfg: [],
-                userRemoteConfigs: [[credentialsId: 'master-node1', url: 'git@github.com:JustxDanny/Project.git']]
+                userRemoteConfigs: [[credentialsId: 'master-node', url: 'git@github.com:JustxDanny/Project.git']]
                          ])
             }
         }
