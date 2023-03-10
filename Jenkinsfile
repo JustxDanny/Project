@@ -8,9 +8,6 @@ pipeline {
           customWorkspace '/home/johnsmith/myworkspace'
         }
       }
-      steps {
-        // Pipeline steps for building on agent1 go here
-      }
     }
     stage('Build on agent2') {
       agent {
@@ -18,9 +15,6 @@ pipeline {
           label 'agent2'
           customWorkspace '/home/jimlee/myworkspace'
         }
-      }
-      steps {
-        // Pipeline steps for building on agent2 go here
       }
     }
     stage('Checkout SCM') {
