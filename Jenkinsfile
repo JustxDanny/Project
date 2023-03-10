@@ -33,9 +33,9 @@ pipeline {
         }
         stage('Build Docker Image') {
             steps {
-                dir('myrepo') {
+                dir("${env.WORKSPACE}/project") {
                     sh '''
-                    docker build -t my-app:1.0.0 -f /home/ubuntu/workspace/project_s3pull+clone+pushtogit/Dockerfile .
+                    docker build -t my-app:1.0.0 -f Dockerfile .
                     '''
                 }
             }
@@ -83,4 +83,3 @@ pipeline {
         }
     }
 }
-
