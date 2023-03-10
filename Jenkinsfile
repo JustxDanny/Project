@@ -6,8 +6,6 @@ pipeline {
         node {
           label 'agent1'
           customWorkspace '/home/johnsmith/myworkspace'
-          // Run as user John Smith
-          user 'johnsmith'
         }
       }
       steps {
@@ -19,8 +17,6 @@ pipeline {
         node {
           label 'agent2'
           customWorkspace '/home/jimlee/myworkspace'
-          // Run as user Jim Lee
-          user 'jimlee'
         }
       }
       steps {
