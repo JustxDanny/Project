@@ -1,10 +1,10 @@
 pipeline {
     agent any
     stages {
-        stage('Build on agent1') {
+        stage('Build on agent2') {
             agent {
                 node {
-                    label 'agent1'
+                    label 'agent2'
                     customWorkspace '/home/johnsmith/myworkspace'
                 }
             }
