@@ -1,14 +1,14 @@
 pipeline {
     agent any
     stages {
-        stage('Build on agent2') {
+        stage('Build on agent1') {
             agent {
                 node {
-                    label 'agent2'
+                    label 'agent1'
                 }
             }
             steps {
-                sh 'echo "Building on agent2"'
+                sh 'echo "Building on agent1"'
             }
         }
         stage('Checkout SCM') {
@@ -19,7 +19,7 @@ pipeline {
                 doGenerateSubmoduleConfigurations: false,
                 extensions: [[$class: 'SubmoduleOption', disableSubmodules: false, parentCredentials: true, recursiveSubmodules: true, reference: '', trackingSubmodules: false]],
                 submoduleCfg: [],
-                userRemoteConfigs: [[credentialsId: 'master-node2', url: 'git@github.com:JustxDanny/Project.git']]
+                userRemoteConfigs: [[credentialsId: 'master-node1', url: 'git@github.com:JustxDanny/Project.git']]
                          ])
             }
         }
