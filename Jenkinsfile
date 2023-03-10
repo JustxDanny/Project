@@ -5,11 +5,10 @@ pipeline {
             agent {
                 node {
                     label 'agent2'
-                    customWorkspace '/home/johnsmith/myworkspace'
                 }
             }
             steps {
-                sh 'echo "Building on agent1"'
+                sh 'echo "Building on agent2"'
             }
         }
         stage('Checkout SCM') {
@@ -20,7 +19,7 @@ pipeline {
                 doGenerateSubmoduleConfigurations: false,
                 extensions: [[$class: 'SubmoduleOption', disableSubmodules: false, parentCredentials: true, recursiveSubmodules: true, reference: '', trackingSubmodules: false]],
                 submoduleCfg: [],
-                userRemoteConfigs: [[credentialsId: 'master-ubuntu', url: 'git@github.com:JustxDanny/Project.git']]
+                userRemoteConfigs: [[credentialsId: 'master-node2', url: 'git@github.com:JustxDanny/Project.git']]
                          ])
             }
         }
