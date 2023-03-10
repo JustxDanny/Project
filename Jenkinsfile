@@ -22,8 +22,8 @@ pipeline {
                     ],
                     userRemoteConfigs: [
                         [
-                            url: 'https://github.com/JustxDanny/Project.git',
-                            credentialsId: 'credentials-ssh-id'
+                            url: 'git@github.com:JustxDanny/Project.git',
+                            credentialsId: 'master-node'
                         ]
                     ],
                     extensions: [
