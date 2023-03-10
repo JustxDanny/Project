@@ -37,7 +37,7 @@ pipeline {
             steps {
                 dir("${env.WORKSPACE}~/project") {
                     sh '''
-                    docker build -t my-app:1.0.0 -f Dockerfile .
+                    docker build -t my-app:1.0.0 .
                     '''
                 }
             }
