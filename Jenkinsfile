@@ -1,18 +1,31 @@
 pipeline {
-    agent {
-        node {
-            label 'agent1'
-            customWorkspace '/home/johnsmith/myworkspace'
-            // Run as user John Smith
-            user 'johnsmith'
+    stages {
+        stage('Build on agent1') {
+            agent {
+                node {
+                    label 'agent1'
+                    customWorkspace '/home/johnsmith/myworkspace'
+                    // Run as user John Smith
+                    user 'johnsmith'
+                }
+            }
+            steps {
+                // Pipeline steps for building on agent1 go here
+            }
         }
-        node {
-            label 'agent2'
-            customWorkspace '/home/jimlee/myworkspace'
-            // Run as user Jim Lee
-            user 'jimlee'
+        stage('Build on agent2') {
+            agent {
+                node {
+                    label 'agent2'
+                    customWorkspace '/home/jimlee/myworkspace'
+                    // Run as user Jim Lee
+                    user 'jimlee'
+                }
+            }
+            steps {
+                // Pipeline steps for building on agent2 go here
+            }
         }
-    }
     stages {
         stage('Checkout SCM') {
             steps {
