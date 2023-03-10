@@ -1,5 +1,18 @@
 pipeline {
-    agent any
+    agent {
+        node {
+            label 'agent1'
+            customWorkspace '/home/johnsmith/myworkspace'
+            // Run as user John Smith
+            user 'johnsmith'
+        }
+        node {
+            label 'agent2'
+            customWorkspace '/home/jimlee/myworkspace'
+            // Run as user Jim Lee
+            user 'jimlee'
+        }
+    }
     stages {
         stage('Checkout SCM') {
             steps {
