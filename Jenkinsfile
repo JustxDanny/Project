@@ -1,6 +1,6 @@
 pipeline {
     agent {
-        agent {label 'agent1'}
+        agent any
         disableConcurrentBuild()
     }
     stages {
