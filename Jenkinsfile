@@ -1,7 +1,7 @@
 pipeline {
     agent {
-        label 'agent1'
-        disableConcurrentBuilds()
+        agent {label 'agent1'}
+        disableConcurrentBuild()
     }
     stages {
         stage('Create Folder') {
