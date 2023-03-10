@@ -2,21 +2,27 @@ pipeline {
     agent {label 'agent1'}
 
     stages {
+        stage('Create Folder') {
+            steps {
+                sh 'sudo mkdir /project'
+                sh 'sudo chown $USER:$USER /project'
+                sh 'sudo chmod -R a+rw /project'
+            }
+        }
         stage('Checkout SCM') {
             steps {
-                dir('/project') {
+                dir('/workspace/project') {
                     sh 'echo "CheckoutSCM"'
                     checkout([$class: 'GitSCM',
-                        branches: [[name: '*main']],
-                        doGenerateSubmoduleConfigurations: false,
-                        extensions: [[$class: 'SubmoduleOption', disableSubmodules: false, parentCredentials: true, recursiveSubmodules: true, reference: '', trackingSubmodules: false]],
-                        submoduleCfg: [],
-                        userRemoteConfigs: [[credentialsId: 'master-node', url: 'git@github.com:JustxDanny/Project.git']]
-                    ])
+                    branches: [[name: '*main']],
+                    doGenerateSubmoduleConfigurations: false,
+                    extensions: [[$class: 'SubmoduleOption', disableSubmodules: false, parentCredentials: true, recursiveSubmodules: true, reference: '', trackingSubmodules: false]],
+                    submoduleCfg: [],
+                    userRemoteConfigs: [[credentialsId: 'master-node', url: 'git@github.com:JustxDanny/Project.git']]
+                             ])
                 }
             }
         }
-
         stage('S3download') {
             steps {
                 sh 'rm -rf *'
@@ -25,7 +31,6 @@ pipeline {
                 }
             }
         }
-
         stage('Build Docker Image') {
             steps {
                 dir('/project') {
@@ -33,7 +38,6 @@ pipeline {
                 }
             }
         }
-
         stage('Run Unit Tests') {
             steps {
                 sh 'docker run my-app:1.0.0 npm test -- --xml test-results.xml'
@@ -44,7 +48,6 @@ pipeline {
                 }
             }
         }
-
         stage('PreUploadToGit') {
             steps {
                 sh 'gzip -d 3kyx3yqbo4ycdgxi5jc3n5pomy.json.gz'
@@ -52,13 +55,11 @@ pipeline {
                 sh 'git commit -m "some commit message"'
             }
         }
-
         stage('GitPush') {
             steps {
                 sh 'git push origin HEAD'
             }
         }
-
         stage('Upload CSV to S3') {
             steps {
                 script {
@@ -74,10 +75,9 @@ pipeline {
             }
         }
     }
-
     post {
         always {
             deleteDir()
         }
     }
-} 
+}
