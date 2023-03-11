@@ -49,8 +49,9 @@ pipeline {
         }
         stage('Build Docker Image') {
             steps {
-                dir('~/project')
-                sh 'docker build -t my-app:1.0.0 .'
+               dir('~/project') {
+                   sh 'docker build -t my-app:1.0.0 .'
+               }
             }
         }
         stage('Run Unit Tests') {
