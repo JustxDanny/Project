@@ -19,7 +19,7 @@ pipeline {
         }
         stage('Checkout SCM') {
             steps {
-                dir('home/ubuntu/workspace/projectBUILD') {
+                dir('/home/ubuntu/workspace/projectBUILD') { // fix directory path
                     sh 'echo "CheckoutSCM"'
                     checkout([$class: 'GitSCM',
                         branches: [[name: 'main']],
@@ -56,7 +56,10 @@ pipeline {
         }
         stage('Run Unit Tests') {
             steps {
-                sh 'docker run my-app:1.0.0 npm test -- --xml test-results.xml'
+                dir('/home/ubuntu/workspace/projectBUILD/Project') { // fix directory path
+                    sh 'docker run my-app:1.0.0 npm test -- --xml test-results.xml'
+                    sh 'docker cp $(docker ps -lq):/home/node/app/test-results.xml /home/ubuntu/workspace/projectBUILD/Project' // copy test results to host machine
+                }
             }
         }
         stage('PreUploadToGit') {
