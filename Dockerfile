@@ -11,6 +11,10 @@ COPY app.py .
 # Install Flask
 RUN pip install flask
 
+# install Npm
+RUN apt-get update && \
+    apt-get install -y npm
+
 # Expose port 80 for Flask app
 EXPOSE 80
 
