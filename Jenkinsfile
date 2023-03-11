@@ -6,9 +6,9 @@ pipeline {
     stages {
         stage('Create Folder') {
             steps {
-                sh 'sudo rm -rf /projectBUILD/Project'
-                sh 'sudo mkdir /projectBUILD/Project'
-                sh 'sudo chown -R jenkins:jenkins /projectBUILD/Project'
+                sh 'sudo rm -rf /projectBUILD/'
+                sh 'sudo mkdir /projectBUILD/'
+                sh 'sudo chown -R jenkins:jenkins /projectBUILD/'
                 sh 'sudo chmod -R 755 /projectBUILD'
             }
         }
@@ -26,7 +26,7 @@ pipeline {
                             reference: '',
                             trackingSubmodules: false]],
                         submoduleCfg: [],
-                        userRemoteConfigs: [[credentialsId: 'master-node',
+                        userRemoteConfigs: [[credentialsId: 'master-node2',
                             url: 'git@github.com:JustxDanny/Project.git']]
                     ])
                 }
@@ -53,7 +53,7 @@ pipeline {
             steps {
                 dir('/home/ubuntu/workspace/projectBUILD/Project') {
                     sh 'docker run my-app:1.0.0 npm test -- --xml test-results.xml'
-                    sh 'docker cp $(docker ps -lq):/home/node/app/test-results.xml /home/ubuntu/workspace/projectBUILD/Project' 
+                    sh 'docker cp $(docker ps -lq):/home/node/app/test-results.xml /home/ubuntu/workspace/projectBUILD/' 
                 }
             }
         }
