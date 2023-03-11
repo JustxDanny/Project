@@ -23,4 +23,4 @@ EXPOSE 80
 USER jenkins
 
 # Start the Flask app with prompt for name input
-CMD ["sh", "-c", "echo 'Enter your name: ' && read name && export NAME=$name && python app.py"]
+CMD ["python", "app.py"]
