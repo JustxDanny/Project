@@ -44,7 +44,7 @@ pipeline {
         }
         stage('Build Docker Image') {
             steps {
-                dir('/home/ubuntu/workspace/projectBUILD/Project') {
+                dir('/home/ubuntu/workspace/projectBUILD') {
                     sh 'docker build -t my-app:1.0.0 .'
                 }
             }
