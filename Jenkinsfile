@@ -17,18 +17,18 @@ pipeline {
                 dir('/home/ubuntu/workspace/projectBUILD') {
                     sh 'echo "CheckoutSCM"'
                     checkout([$class: 'GitSCM',
-                        branches: [[name: 'main']],
-                        doGenerateSubmoduleConfigurations: false,
-                        extensions: [[$class: 'SubmoduleOption',
-                            disableSubmodules: false,
-                            parentCredentials: true,
-                            recursiveSubmodules: true,
-                            reference: '',
-                            trackingSubmodules: false]],
-                        submoduleCfg: [],
-                        userRemoteConfigs: [[credentialsId: 'master-node2',
-                            url: 'git@github.com:JustxDanny/Project.git']]
-                    ])
+                    branches: [[name: 'main']],
+                    doGenerateSubmoduleConfigurations: false,
+                    extensions: [[$class: 'SubmoduleOption',
+                    disableSubmodules: false,
+                    parentCredentials: true,
+                    recursiveSubmodules: true,
+                    reference: '',
+                    trackingSubmodules: false]],
+                    submoduleCfg: [],
+                    userRemoteConfigs: [[credentialsId: 'master-node2',
+                    url: 'git@github.com:JustxDanny/Project.git']]
+                             ])
                 }
             }
         }
@@ -37,8 +37,8 @@ pipeline {
                 sh 'rm -f 3kyx3yqbo4ycdgxi5jc3n5pomy.json.gz' // only delete the specific file
                 withAWS(credentials: 'DanielDevops', region: 'eu-central-1') {
                     s3Download(file: '3kyx3yqbo4ycdgxi5jc3n5pomy.json.gz',
-                        bucket: 'danielproject',
-                        path: "AWSDynamoDB/01677951784753-854cdf64/data/3kyx3yqbo4ycdgxi5jc3n5pomy.json.gz")
+                    bucket: 'danielproject',
+                    path: "AWSDynamoDB/01677951784753-854cdf64/data/3kyx3yqbo4ycdgxi5jc3n5pomy.json.gz")
                 }
             }
         }
@@ -80,18 +80,19 @@ pipeline {
                     def testStatus = sh(script: 'cat /home/ubuntu/workspace/projectBUILD/test-results.xml')
                     def csvContent = "${userName},${currentDate},${testStatus}"
                     writeFile file: 'test_results.csv', text: csvContent, encoding: 'UTF-8'
-            }
-            withAWS(credentials: 'DanielDevops', region: 'eu-central-1') {
-                s3Upload(file: 'test_results.csv',
-                bucket: 'danielproject',
-                path: 'test_results.csv')
+                }
+                withAWS(credentials: 'DanielDevops', region: 'eu-central-1') {
+                    s3Upload(file: 'test_results.csv',
+                    bucket: 'danielproject',
+                    path: 'test_results.csv')
+                }
             }
         }
-    }
 
-    post {
-        always {
-            deleteDir()
+        post {
+            always {
+                deleteDir()
+            }
         }
     }
 }
