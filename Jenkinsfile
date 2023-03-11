@@ -1,30 +1,39 @@
 pipeline {
-    agent {
-        node {
-            label 'agent2'
-            customWorkspace '/project'
-        }
-    }
+    agent any
     options {
         disableConcurrentBuilds()
     }
     stages {
+        stage('Clean Workspace') {
+            steps {
+                cleanWs()
+            }
+        }
+        stage('Create Folder') {
+            steps {
+                sh 'sudo mkdir /project'
+                sh 'sudo chown -R jenkins:jenkins /project'
+                sh 'sudo chmod -R 755 /project'
+            }
+        }
         stage('Checkout SCM') {
             steps {
-                sh 'echo "CheckoutSCM"'
-                checkout([$class: 'GitSCM',
-                    branches: [[name: 'main']],
-                    doGenerateSubmoduleConfigurations: false,
-                    extensions: [[$class: 'SubmoduleOption',
-                        disableSubmodules: false,
-                        parentCredentials: true,
-                        recursiveSubmodules: true,
-                        reference: '',
-                        trackingSubmodules: false]],
-                    submoduleCfg: [],
-                    userRemoteConfigs: [[credentialsId: 'master-node2',
-                        url: 'git@github.com:JustxDanny/Project.git']]
-                ])
+                dir('/project') {
+                    sh 'echo "CheckoutSCM"'
+                    checkout([$class: 'GitSCM',
+                        branches: [[name: 'main']],
+                        doGenerateSubmoduleConfigurations: false,
+                        extensions: [[$class: 'SubmoduleOption',
+                            disableSubmodules: false,
+                            parentCredentials: true,
+                            recursiveSubmodules: true,
+                            reference: '',
+                            trackingSubmodules: false]],
+                        submoduleCfg: [],
+                        userRemoteConfigs: [[credentialsId: 'master-node',
+                            url: 'git@github.com:JustxDanny/Project.git']]
+                    ])
+                }
             }
         }
         stage('S3download') {
