@@ -86,8 +86,8 @@ pipeline {
                     bucket: 'danielproject',
                     path: 'test_results.csv')
                 }
+            }
         }
-    }
     post {
         always {
             deleteDir()
