@@ -6,7 +6,7 @@ pipeline {
     stages {
         stage('Clear Port'){
             steps {
-                sh 'sudo kill $(sudo lsof -t -i :8888)'
+                sh 'sudo fuser -k 8888/tcp'
             }
         }
         stage('Create Folder') {
