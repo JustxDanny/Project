@@ -87,7 +87,7 @@ pipeline {
                     path: 'test_results.csv')
         }
     }
-    
+
     post {
         always {
             deleteDir()
