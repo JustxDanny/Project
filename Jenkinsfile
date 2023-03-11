@@ -1,35 +1,30 @@
 pipeline {
-    agent any
+    agent {
+        node {
+            label 'agent2'
+            customWorkspace '/project'
+        }
+    }
     options {
         disableConcurrentBuilds()
     }
     stages {
-        stage('Create Folder') {
-            steps {
-                sh 'sudo rm -rf /project'
-                sh 'sudo mkdir /project'
-                sh 'sudo chown -R jenkins:jenkins /project'
-                sh 'sudo chmod -R 755 /project'
-            }
-        }
         stage('Checkout SCM') {
             steps {
-                dir('/project') {
-                    sh 'echo "CheckoutSCM"'
-                    checkout([$class: 'GitSCM',
-                        branches: [[name: 'main']],
-                        doGenerateSubmoduleConfigurations: false,
-                        extensions: [[$class: 'SubmoduleOption',
-                            disableSubmodules: false,
-                            parentCredentials: true,
-                            recursiveSubmodules: true,
-                            reference: '',
-                            trackingSubmodules: false]],
-                        submoduleCfg: [],
-                        userRemoteConfigs: [[credentialsId: 'master-node',
-                            url: 'git@github.com:JustxDanny/Project.git']]
-                    ])
-                }
+                sh 'echo "CheckoutSCM"'
+                checkout([$class: 'GitSCM',
+                    branches: [[name: 'main']],
+                    doGenerateSubmoduleConfigurations: false,
+                    extensions: [[$class: 'SubmoduleOption',
+                        disableSubmodules: false,
+                        parentCredentials: true,
+                        recursiveSubmodules: true,
+                        reference: '',
+                        trackingSubmodules: false]],
+                    submoduleCfg: [],
+                    userRemoteConfigs: [[credentialsId: 'master-node',
+                        url: 'git@github.com:JustxDanny/Project.git']]
+                ])
             }
         }
         stage('S3download') {
@@ -44,9 +39,7 @@ pipeline {
         }
         stage('Build Docker Image') {
             steps {
-                dir('/project') {
-                    sh 'docker build -t my-app:1.0.0 .'
-                }
+                sh 'docker build -t my-app:1.0.0 .'
             }
         }
         stage('Run Unit Tests') {
