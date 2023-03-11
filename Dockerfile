@@ -5,11 +5,12 @@ RUN groupadd -g 999 docker && useradd -r -u 999 -g docker jenkins && echo "jenki
 
 WORKDIR /app
 
-# Copy app.py to working directory
+# Copy app.py and requirements.txt to working directory
 COPY app.py .
+COPY requirements.txt .
 
-# Install Flask
-RUN pip install flask
+# Install Flask and other required packages
+RUN pip install -r requirements.txt
 
 # install Npm
 RUN apt-get update && \
