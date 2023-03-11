@@ -88,10 +88,10 @@ pipeline {
                 }
         }
     }
-
     post {
         always {
             deleteDir()
-        }
+           }
+       }
     }
 }
