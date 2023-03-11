@@ -46,7 +46,7 @@ pipeline {
             steps {
                 dir('/home/ubuntu/workspace/projectBUILD') {
                     sh 'docker build -t my-app:1.0.0 .'
-                    sh 'docker run -d -p 80:80 -e NAME=Daniel my-app:1.0.0'
+                    sh 'docker run -d -p 8888:80 -e NAME=Daniel my-app:1.0.0'
                 }
             }
         }
@@ -88,15 +88,27 @@ pipeline {
                 }
             }
         }
-    }    
-    post {
-        always {
-            deleteDir()
+    }
+    post{
+        always{
+            script{
+                sh "docker stop my-app || true"
+                sh "docker rm my-app || true"
+            }
+        }
+
+        failure{
+            script{
+                sh "docker logs my-app"
+                sh "docker stop my-app || true"
+                sh "docker rm my-app || true"
+                sh "lsof -t -i:8080 | xargs kill || true"
+            }
         }
     }
     post {
-        failure {
-            sh 'sudo kill $(sudo lsof -t -i :80)'
-        }
-    }
+        always{
+          deleteDir()
+       }
+    }  
 }
