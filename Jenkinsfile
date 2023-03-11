@@ -6,15 +6,15 @@ pipeline {
     stages {
         stage('Create Folder') {
             steps {
-                sh 'sudo rm -rf /project@'
-                sh 'sudo mkdir /project@'
-                sh 'sudo chown $USER:$USER /project@'
-                sh 'sudo chmod -R 777 /project@'
+                sh 'sudo rm -rf /project'
+                sh 'sudo mkdir /project'
+                sh 'sudo chown -R jenkins:jenkins /project'
+                sh 'sudo chmod -R 755 /project'
             }
         }
         stage('Checkout SCM') {
             steps {
-                dir('/project@') {
+                dir('/project') {
                     sh 'echo "CheckoutSCM"'
                     checkout([$class: 'GitSCM',
                         branches: [[name: 'main']],
@@ -44,7 +44,7 @@ pipeline {
         }
         stage('Build Docker Image') {
             steps {
-                dir('/project@') {
+                dir('/project') {
                     sh 'docker build -t my-app:1.0.0 .'
                 }
             }
