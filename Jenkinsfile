@@ -52,7 +52,7 @@ pipeline {
         stage('Run Docker Container') {
             steps {
                  dir('/home/ubuntu/workspace/projectBUILD/Project') {
-                   sh 'docker run -p 80:80 my-app:1.0.0 Daniel' // replace your-name with your actual name
+                   sh 'docker run -p 80:80 my-app:1.0.0 '
                 }
             }
         }
