@@ -3,12 +3,6 @@ pipeline {
     options {
         disableConcurrentBuilds()
     }
-    stages {
-        stage('Clean Workspace') {
-            steps {
-                sh 'sudo rm -rf /home/ubuntu/workspace/projectBUILD'
-            }
-        }
         stage('Create Folder') {
             steps {
                 sh 'sudo rm -rf /projectBUILD'
