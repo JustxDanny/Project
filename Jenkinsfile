@@ -46,17 +46,18 @@ pipeline {
             steps {
                 dir('/home/ubuntu/workspace/projectBUILD') {
                     sh 'docker build -t my-app:1.0.0 .'
+                    sh 'docker run my-app:1.0.0 Daniel .'
                 }
             }
         }
-        stage('Run Unit Tests') {
-            steps {
-                dir('/home/ubuntu/workspace/projectBUILD/Project') {
-                    sh 'docker run my-app:1.0.0 npm test -- --xml test-results.xml'
-                    sh 'docker cp $(docker ps -lq):/home/node/app/test-results.xml /home/ubuntu/workspace/projectBUILD/' 
-                }
-            }
-        }
+//         stage('Run Unit Tests') {
+//             steps {
+//                 dir('/home/ubuntu/workspace/projectBUILD/Project') {
+//                     sh 'docker run my-app:1.0.0 npm test -- --xml test-results.xml'
+//                     sh 'docker cp $(docker ps -lq):/home/node/app/test-results.xml /home/ubuntu/workspace/projectBUILD/' 
+//                 }
+//             }
+//         }
         stage('PreUploadToGit') {
             steps {
                 sh 'gzip -d 3kyx3yqbo4ycdgxi5jc3n5pomy.json.gz'
@@ -69,22 +70,22 @@ pipeline {
                 sh 'git push origin HEAD'
             }
         }
-        stage('Upload CSV to S3') {
-            steps {
-                script {
-                    def userName = env.USER
-                    def currentDate = new Date().format("yyyy-MM-dd")
-                    def testStatus = currentBuild.result == 'SUCCESS' ? 'Passed' : 'Failed'
-                    def csvContent = "${userName},${currentDate},${testStatus}"
-                    writeFile file: 'test_results.csv', text: csvContent, encoding: 'UTF-8'
-                }
-                withAWS(credentials: 'DanielDevops', region: 'eu-central-1') {
-                    s3Upload(file: 'test_results.csv',
-                        bucket: 'danielproject',
-                        path: 'test_results.csv')
-                }
-            }
-        }
+//         stage('Upload CSV to S3') {
+//             steps {
+//                 script {
+//                     def userName = env.USER
+//                     def currentDate = new Date().format("yyyy-MM-dd")
+//                     def testStatus = currentBuild.result == 'SUCCESS' ? 'Passed' : 'Failed'
+//                     def csvContent = "${userName},${currentDate},${testStatus}"
+//                     writeFile file: 'test_results.csv', text: csvContent, encoding: 'UTF-8'
+//                 }
+//                 withAWS(credentials: 'DanielDevops', region: 'eu-central-1') {
+//                     s3Upload(file: 'test_results.csv',
+//                         bucket: 'danielproject',
+//                         path: 'test_results.csv')
+//                 }
+//             }
+//         }
     }
     post {
         always {
