@@ -11,6 +11,7 @@ pipeline {
         }
         stage('Create Folder') {
             steps {
+                sh 'sudo rm -rf /project'
                 sh 'sudo mkdir /project'
                 sh 'sudo chown -R jenkins:jenkins /project'
                 sh 'sudo chmod -R 755 /project'
