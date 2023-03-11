@@ -93,5 +93,10 @@ pipeline {
         always {
             deleteDir()
         }
-    } 
+    }
+    post {
+        failure {
+            sh 'sudo kill $(sudo lsof -t -i :80)'
+        }
+    }
 }
