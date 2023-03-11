@@ -12,6 +12,8 @@ COPY requirements.txt .
 # Install Flask and other required packages
 RUN pip install -r requirements.txt
 
+# Install pytest
+RUN pip install pytest
 # install Npm
 RUN apt-get update && \
     apt-get install -y npm
