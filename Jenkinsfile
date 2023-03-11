@@ -47,7 +47,7 @@ pipeline {
                 dir('/home/ubuntu/workspace/projectBUILD') {
                     sh 'docker build -t my-app:1.0.0 .'
                     input message: 'Enter your name:', parameters: [string(defaultValue: '', description: '', name: 'name')]
-                    sh "docker run -p 80:80 -e NAME=${params.name} my-app:1.0.0"
+                    sh "docker run -p 80:80 -e NAME=Daniel my-app:1.0.0"
                 }
             }
         }
