@@ -47,7 +47,6 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 dir('/home/ubuntu/workspace/projectBUILD') {
-                    sh 'sudo chown -R jenkins:jenkins /app'
                     sh 'docker build -t my-app:1.0.0 .'
                     sh 'docker run -d -p :80 -e NAME=Daniel my-app:1.0.0'
                 }
