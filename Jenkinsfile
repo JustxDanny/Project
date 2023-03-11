@@ -3,6 +3,7 @@ pipeline {
     options {
         disableConcurrentBuilds()
     }
+    stages {
         stage('Create Folder') {
             steps {
                 sh 'sudo rm -rf /projectBUILD'
@@ -13,7 +14,7 @@ pipeline {
         }
         stage('Checkout SCM') {
             steps {
-                dir('/home/ubuntu/workspace/projectBUILD') { // fix directory path
+                dir('/home/ubuntu/workspace/projectBUILD') {
                     sh 'echo "CheckoutSCM"'
                     checkout([$class: 'GitSCM',
                         branches: [[name: 'main']],
@@ -43,16 +44,16 @@ pipeline {
         }
         stage('Build Docker Image') {
             steps {
-               dir('/home/ubuntu/workspace/projectBUILD/Project') {
-                   sh 'docker build -t my-app:1.0.0 .'
-               }
+                dir('/home/ubuntu/workspace/projectBUILD/Project') {
+                    sh 'docker build -t my-app:1.0.0 .'
+                }
             }
         }
         stage('Run Unit Tests') {
             steps {
-                dir('/home/ubuntu/workspace/projectBUILD/Project') { // fix directory path
+                dir('/home/ubuntu/workspace/projectBUILD/Project') {
                     sh 'docker run my-app:1.0.0 npm test -- --xml test-results.xml'
-                    sh 'docker cp $(docker ps -lq):/home/node/app/test-results.xml /home/ubuntu/workspace/projectBUILD/Project' // copy test results to host machine
+                    sh 'docker cp $(docker ps -lq):/home/node/app/test-results.xml /home/ubuntu/workspace/projectBUILD/Project' 
                 }
             }
         }
