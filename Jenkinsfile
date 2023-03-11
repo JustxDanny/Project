@@ -46,7 +46,6 @@ pipeline {
             steps {
                 dir('/home/ubuntu/workspace/projectBUILD') {
                     sh 'docker build -t my-app:1.0.0 .'
-                    sh 'docker run my-app:1.0.0 .'
                 }
             }
         }
