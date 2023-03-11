@@ -53,6 +53,7 @@ pipeline {
         stage('Run Unit Tests') {
             steps {
                 dir('/home/ubuntu/workspace/projectBUILD') {
+                    sh 'sudo chown -R jenkins:jenkins /app'
                     sh 'docker run my-app:1.0.0 pytest --junitxml=test-results.xml'
                     sh 'docker cp $(docker ps -lq):/home/node/app/test-results.xml /home/ubuntu/workspace/projectBUILD/'
                 }
