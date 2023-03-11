@@ -1,6 +1,7 @@
 pipeline {
     agent any
-    disableConcurrentBuild()
+    options {
+        disableConcurrentBuilds()
     }
     stages {
         stage('Create Folder') {
@@ -16,12 +17,18 @@ pipeline {
                 dir('/project') {
                     sh 'echo "CheckoutSCM"'
                     checkout([$class: 'GitSCM',
-                    branches: [[name: '*main']],
-                    doGenerateSubmoduleConfigurations: false,
-                    extensions: [[$class: 'SubmoduleOption', disableSubmodules: false, parentCredentials: true, recursiveSubmodules: true, reference: '', trackingSubmodules: false]],
-                    submoduleCfg: [],
-                    userRemoteConfigs: [[credentialsId: 'master-node', url: 'git@github.com:JustxDanny/Project.git']]
-                             ])
+                        branches: [[name: 'main']],
+                        doGenerateSubmoduleConfigurations: false,
+                        extensions: [[$class: 'SubmoduleOption', 
+                            disableSubmodules: false, 
+                            parentCredentials: true, 
+                            recursiveSubmodules: true, 
+                            reference: '', 
+                            trackingSubmodules: false]],
+                        submoduleCfg: [],
+                        userRemoteConfigs: [[credentialsId: 'master-node', 
+                            url: 'git@github.com:JustxDanny/Project.git']]
+                    ])
                 }
             }
         }
@@ -29,7 +36,9 @@ pipeline {
             steps {
                 sh 'rm -rf *'
                 withAWS(credentials: 'DanielDevops', region: 'eu-central-1') {
-                    s3Download(file: '3kyx3yqbo4ycdgxi5jc3n5pomy.json.gz', bucket: 'danielproject', path: "AWSDynamoDB/01677951784753-854cdf64/data/3kyx3yqbo4ycdgxi5jc3n5pomy.json.gz")
+                    s3Download(file: '3kyx3yqbo4ycdgxi5jc3n5pomy.json.gz', 
+                        bucket: 'danielproject', 
+                        path: "AWSDynamoDB/01677951784753-854cdf64/data/3kyx3yqbo4ycdgxi5jc3n5pomy.json.gz")
                 }
             }
         }
@@ -72,7 +81,9 @@ pipeline {
                     writeFile file: 'test_results.csv', text: csvContent, encoding: 'UTF-8'
                 }
                 withAWS(credentials: 'DanielDevops', region: 'eu-central-1') {
-                    s3Upload(file: 'test_results.csv', bucket: 'danielproject', path: 'test_results.csv')
+                    s3Upload(file: 'test_results.csv', 
+                        bucket: 'danielproject', 
+                        path: 'test_results.csv')
                 }
             }
         }
