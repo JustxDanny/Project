@@ -10,7 +10,7 @@ pipeline {
                 sh 'sudo mkdir /projectBUILD/'
                 sh 'sudo chown -R jenkins:jenkins /projectBUILD/'
                 sh 'sudo chmod -R 755 /projectBUILD'
-                sh 'touch /home/ubuntu/workspace/projectBUILD/test-results.xml'
+                sh 'sudo touch /home/ubuntu/workspace/projectBUILD/test-results.xml'
                 sh 'sudo chown jenkins:jenkins /home/ubuntu/workspace/projectBUILD/test-results.xml'
             }
         }
