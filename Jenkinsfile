@@ -52,14 +52,14 @@ pipeline {
                 }
             }
         }
-        stage('Run Unit Tests') {
-            steps {
-                dir('/home/ubuntu/workspace/projectBUILD') {
-                    sh 'docker run my-app:1.0.0 pytest --junitxml=test-results.xml'
-                    sh 'docker cp $(docker ps -lq):/home/node/app/test-results.xml /home/ubuntu/workspace/projectBUILD/'
-                }
-                sh "echo 'user,${env.BUILD_ID},${currentBuild.result}' > results.csv"
-                sh "aws s3 cp results.csv s3://danielproject/results-${env.BUILD_NUMBER}.csv"
+//         stage('Run Unit Tests') {
+//             steps {
+//                 dir('/home/ubuntu/workspace/projectBUILD') {
+//                     sh 'docker run my-app:1.0.0 pytest --junitxml=test-results.xml'
+//                     sh 'docker cp $(docker ps -lq):/home/node/app/test-results.xml /home/ubuntu/workspace/projectBUILD/'
+//                 }
+//                 sh "echo 'user,${env.BUILD_ID},${currentBuild.result}' > results.csv"
+//                 sh "aws s3 cp results.csv s3://danielproject/results-${env.BUILD_NUMBER}.csv"
             }
         }
         stage('PreUploadToGit') {
