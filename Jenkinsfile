@@ -97,8 +97,6 @@ pipeline {
     post{
         always {
             script{
-                sh "docker stop my-app || true"
-                sh "docker rm my-app || true"
                 deleteDir()
             }
         }
