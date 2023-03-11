@@ -77,7 +77,7 @@ pipeline {
                 script {
                     def userName = env.USER
                     def currentDate = new Date().format("yyyy-MM-dd")
-                    def testStatus = sh(script: 'cat /home/ubuntu/workspace/projectBUILD/test-results.xml
+                    def testStatus = sh(script: 'cat /home/ubuntu/workspace/projectBUILD/test-results.xml')
                     def csvContent = "${userName},${currentDate},${testStatus}"
                     writeFile file: 'test_results.csv', text: csvContent, encoding: 'UTF-8'
             }
