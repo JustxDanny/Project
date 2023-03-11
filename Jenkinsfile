@@ -4,11 +4,6 @@ pipeline {
         disableConcurrentBuilds()
     }
     stages {
-        stage('Clear Port'){
-            steps {
-                sh 'sudo fuser -k 8888/tcp'
-            }
-        }
         stage('Create Folder') {
             steps {
                 sh 'sudo rm -rf /projectBUILD/'
