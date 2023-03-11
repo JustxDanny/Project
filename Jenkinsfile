@@ -85,14 +85,12 @@ pipeline {
                     s3Upload(file: 'test_results.csv',
                     bucket: 'danielproject',
                     path: 'test_results.csv')
-                }
-            }
         }
-
+    }
+    
     post {
-            always {
-                deleteDir()
-            }
+        always {
+            deleteDir()
         }
     }
 }
