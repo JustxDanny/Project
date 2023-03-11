@@ -6,7 +6,7 @@ pipeline {
     stages {
         stage('Clean Workspace') {
             steps {
-                cleanWs()
+                sh 'rm -rf /home/ubuntu/workspace/projectBUILD'
             }
         }
         stage('Create Folder') {
