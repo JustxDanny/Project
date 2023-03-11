@@ -4,6 +4,11 @@ pipeline {
         disableConcurrentBuilds()
     }
     stages {
+        stage('Clear Port'){
+            steps {
+                sh 'sudo kill $(sudo lsof -t -i :8888)'
+            }
+        }
         stage('Create Folder') {
             steps {
                 sh 'sudo rm -rf /projectBUILD/'
@@ -102,7 +107,7 @@ pipeline {
                 sh "docker logs my-app"
                 sh "docker stop my-app || true"
                 sh "docker rm my-app || true"
-                sh "lsof -t -i:8080 | xargs kill || true"
+                sh "lsof -t -i:8888 | xargs kill || true"
             }
         }
     }
