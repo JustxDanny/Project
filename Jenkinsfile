@@ -85,6 +85,7 @@ pipeline {
                     s3Upload(file: 'test_results.csv',
                     bucket: 'danielproject',
                     path: 'test_results.csv')
+                }
         }
     }
 
