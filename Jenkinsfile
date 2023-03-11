@@ -96,17 +96,7 @@ pipeline {
     }
     post{
         always {
-            script{
                 deleteDir()
             }
-        }
-        failure{
-            script{
-                sh "docker logs my-app"
-                sh "docker stop my-app || true"
-                sh "docker rm my-app || true"
-                sh "lsof -t -i:8888 | xargs kill || true"
-            }
-        }
     }
-}
+} 
