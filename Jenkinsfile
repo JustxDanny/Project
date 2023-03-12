@@ -16,21 +16,20 @@ pipeline {
         }
         stage('Checkout SCM') {
             steps {
-                    sh 'echo "CheckoutSCM"'
-                    checkout([$class: 'GitSCM',
-                    branches: [[name: 'main']],
-                    doGenerateSubmoduleConfigurations: false,
-                    extensions: [[$class: 'SubmoduleOption',
-                    disableSubmodules: false,
-                    parentCredentials: true,
-                    recursiveSubmodules: true,
-                    reference: '',
-                    trackingSubmodules: false]],
-                    submoduleCfg: [],
-                    userRemoteConfigs: [[credentialsId: 'master-node2',
-                    url: 'git@github.com:JustxDanny/Project.git']]
-                             ])
-                }
+                sh 'echo "CheckoutSCM"'
+                checkout([$class: 'GitSCM',
+                branches: [[name: 'main']],
+                doGenerateSubmoduleConfigurations: false,
+                extensions: [[$class: 'SubmoduleOption',
+                disableSubmodules: false,
+                parentCredentials: true,
+                recursiveSubmodules: true,
+                reference: '',
+                trackingSubmodules: false]],
+                submoduleCfg: [],
+                userRemoteConfigs: [[credentialsId: 'master-node2',
+                url: 'git@github.com:JustxDanny/Project.git']]
+                         ])
             }
         }
         stage('S3download') {
@@ -51,16 +50,16 @@ pipeline {
                 }
             }
         }
- //         stage('Run Unit Tests') {
- //             steps {
- //                 dir('/home/ubuntu/workspace/projectBUILD') {
- //                     sh 'docker run my-app:1.0.0 pytest --junitxml=test-results.xml'
- //                     sh 'docker cp $(docker ps -lq):/home/node/app/test-results.xml /home/ubuntu/workspace/projectBUILD/'
- //                 }
- //                 sh "echo 'user,${env.BUILD_ID},${currentBuild.result}' > results.csv"
- //                 sh "aws s3 cp results.csv s3://danielproject/results-${env.BUILD_NUMBER}.csv"
-//              }
-//          }
+        stage('Run Unit Tests') {
+            steps {
+                dir('/home/ubuntu/workspace/projectBUILD') {
+                    sh 'docker run my-app:1.0.0 pytest --junitxml=test-results.xml'
+                    sh 'docker cp $(docker ps -lq):/home/node/app/test-results.xml /home/ubuntu/workspace/projectBUILD/'
+                }
+                sh "echo 'user,${env.BUILD_ID},${currentBuild.result}' > results.csv"
+                sh "aws s3 cp results.csv s3://danielproject/results-${env.BUILD_NUMBER}.csv"
+            }
+        }
         stage('PreUploadToGit') {
             steps {
                 sh 'gzip -d 3kyx3yqbo4ycdgxi5jc3n5pomy.json.gz'
@@ -89,9 +88,10 @@ pipeline {
                 }
             }
         }
-    post{
-        always {
+        post{
+            always {
                 deleteDir()
             }
+        }
     }
 }
