@@ -14,22 +14,22 @@ pipeline {
         }
         stage('Checkout SCM') {
             steps {
-                dir('/home/ubuntu/workspace/projectBUILD') {
-                    sh 'echo "CheckoutSCM"'
-                    checkout([$class: 'GitSCM',
-                        branches: [[name: 'main']],
-                        doGenerateSubmoduleConfigurations: false,
-                        extensions: [[$class: 'SubmoduleOption',
-                            disableSubmodules: false,
-                            parentCredentials: true,
-                            recursiveSubmodules: true,
-                            reference: '',
-                            trackingSubmodules: false]],
-                        submoduleCfg: [],
-                        userRemoteConfigs: [[credentialsId: 'master-node2',
-                            url: 'git@github.com:JustxDanny/Project.git']]
-                    ])
-                }
+               dir('/path/to/git/repository') {
+               sh 'echo "CheckoutSCM"'
+               checkout([$class: 'GitSCM',
+                branches: [[name: 'main']],
+                doGenerateSubmoduleConfigurations: false,
+                extensions: [[$class: 'SubmoduleOption',
+                    disableSubmodules: false,
+                    parentCredentials: true,
+                    recursiveSubmodules: true,
+                    reference: '',
+                    trackingSubmodules: false]],
+                submoduleCfg: [],
+                userRemoteConfigs: [[credentialsId: 'master-node2',
+                    url: 'git@github.com:JustxDanny/Project.git']]
+                   ])
+               }
             }
         }
         stage('S3download') {
