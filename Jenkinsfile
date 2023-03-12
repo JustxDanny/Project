@@ -14,7 +14,7 @@ pipeline {
         }
         stage('Checkout SCM') {
             steps {
-               dir('/path/to/git/repository') {
+               dir('/home/ubuntu/workspace/projectBUILD/Project') {
                sh 'echo "CheckoutSCM"'
                checkout([$class: 'GitSCM',
                 branches: [[name: 'main']],
