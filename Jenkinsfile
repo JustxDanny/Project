@@ -28,7 +28,7 @@ pipeline {
                     reference: '',
                     trackingSubmodules: false]],
                     submoduleCfg: [],
-                    userRemoteConfigs: [[credentialsId: 'credentials-ssh-id',
+                    userRemoteConfigs: [[credentialsId: 'master-node2',
                     url: 'git@github.com:JustxDanny/Project.git']]
                              ])
                 }
